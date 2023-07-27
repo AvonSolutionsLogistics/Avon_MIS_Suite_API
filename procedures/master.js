@@ -33,9 +33,5 @@ module.exports = {
   searchuserpermissions: "com.search_user_permissions",
   deleteuserpermissions: "com.delete_user_permissions",
   getuserpermissions: "com.get_user_permissions",
-  searchservicemanagement:"com.search_service_management",
-  getservicemanagement:"com.get_service_management",
-  saveservicemanagement:"com.save_service_management",
-  saveservicemanagement:"com.save_service_management",
   savedataintegrationservices:"tally.save_data_integration_services"
 };
