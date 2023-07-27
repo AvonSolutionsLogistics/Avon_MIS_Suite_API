@@ -6,9 +6,6 @@ const cookieParser = require("cookie-parser");
 const UserRoutes = require("./controller/user");
 const MasterRoutes = require("./controller/master");
 const ReportRoutes = require("./controller/report");
-const BillPaymentRoutes = require("./controller/billpayment");
-const ConsultingRoutes = require("./controller/consulting");
-const MailFunction = require("./scheduler/mail");
 
 app.use(function timeLog(req, res, next) {
   console.log("Time: ", Date.now());
@@ -18,8 +15,6 @@ app.use(cookieParser());
 app.use("/user", UserRoutes);
 app.use("/master", MasterRoutes);
 app.use("/report", ReportRoutes);
-app.use("/billpayment", BillPaymentRoutes);
-app.use("/consulting", ConsultingRoutes);
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -32,7 +27,7 @@ router.get("/", function (req, res) {
 
 app.use("/api", router);
 
-cron.schedule('*/1 * * * *', MailFunction.sendmail);
+//cron.schedule('*/1 * * * *', MailFunction.sendmail);
 
 app.listen(8080, () => {
   console.log("Server is running on Port : " + process.env.PORT);
