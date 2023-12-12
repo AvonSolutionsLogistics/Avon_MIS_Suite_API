@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const UserRoutes = require("./controller/user");
 const MasterRoutes = require("./controller/master");
 const ReportRoutes = require("./controller/report");
-
+const DataManagementRoutes= require("./controller/datamanagement");
 app.use(function timeLog(req, res, next) {
   console.log("Time: ", Date.now());
   next();
@@ -15,6 +15,7 @@ app.use(cookieParser());
 app.use("/user", UserRoutes);
 app.use("/master", MasterRoutes);
 app.use("/report", ReportRoutes);
+app.use("/datamanagement", DataManagementRoutes);
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

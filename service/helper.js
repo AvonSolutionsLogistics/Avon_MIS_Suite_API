@@ -10,17 +10,20 @@ module.exports = {
   middle: function (req, res, next) {
     try {
       var cookiearray = req.headers.cookie.split("; ");
-      var refresh_token = cookiearray[0].slice(13);
-      var access_tokens = cookiearray[1].slice(12);
+      const tokenKeyValuePairs = {};
+
+      for (const cookie of cookiearray) {
+        const [key, value] = cookie.split("=");
+        tokenKeyValuePairs[key] = value;
+      }
+      var refresh_token = tokenKeyValuePairs["refreshtoken"];
+      var access_tokens = tokenKeyValuePairs["accesstoken"];
       const decoded = jwt.decode(refresh_token, { complete: true });
       const expirationTime = decoded.payload.exp;
       // Calculate the remaining time in seconds
       const currentTime = Math.floor(Date.now() / 1000);
       const remainingTime = expirationTime - currentTime;
-      console.log(
-        "remaining---------------------------------------------->",
-        remainingTime
-      );
+
       if (access_tokens.length > 0) {
         jwt.verify(access_tokens, process.env.jwtsecret, function (err) {
           if (err)
@@ -61,10 +64,15 @@ module.exports = {
 
   genaccesstoken: function (req, res, next) {
     var cookiearray = req.headers.cookie.split("; ");
-    var refresh_token = cookiearray[0].slice(13);
+    const tokenKeyValuePairs = {};
+
+    for (const cookie of cookiearray) {
+      const [key, value] = cookie.split("=");
+      tokenKeyValuePairs[key] = value;
+    }
     try {
-      if (refresh_token.length > 0) {
-        jwt.verify(refresh_token, process.env.jwtsecret, function (err) {
+      if (tokenKeyValuePairs["refreshtoken"].length > 0) {
+        jwt.verify(tokenKeyValuePairs["refreshtoken"], process.env.jwtsecret, function (err) {
           if (err)
             return res.status(403).send({ auth: false, message: err.message });
           else {
